@@ -4,7 +4,9 @@
   "description": "Data generator for testing TCC APIs",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "format:check": "prettier --check .",
+    "format": "prettier --write ."
   },
   "author": "luketeeeeee",
   "license": "ISC",
@@ -20,6 +22,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.14.9",
+    "prettier": "^3.3.2",
     "prisma": "^5.16.1",
     "typescript": "^5.5.3"
   }
