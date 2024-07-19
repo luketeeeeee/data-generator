@@ -14,7 +14,7 @@ datasource db {
 }
 
 model PingReport {
-  id                 Int    @id @default(autoincrement())
+  id                 String @id @default(uuid())
   ipAddress          String
   packetsTransmitted Int
   packetsReceived    Int
@@ -27,5 +27,15 @@ model PingReport {
 }
 
 model TracerouteReport {
-  id Int @id @default(autoincrement())
+  id        String @id @default(uuid())
+  ipAddress String
+  hops      Hop[]
+}
+
+model Hop {
+  id                 String            @id @default(uuid())
+  ipAddresses        String[]
+  rttHopTimes        Float[]
+  TracerouteReport   TracerouteReport? @relation(fields: [tracerouteReportId], references: [id])
+  tracerouteReportId String?
 }
