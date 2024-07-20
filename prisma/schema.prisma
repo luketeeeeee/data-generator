@@ -24,12 +24,16 @@ model PingReport {
   rttAvg             Float
   rttMax             Float
   rttMDev            Float
+
+  @@map("ping_reports")
 }
 
 model TracerouteReport {
   id        String @id @default(uuid())
   ipAddress String
   hops      Hop[]
+
+  @@map("traceroute_reports")
 }
 
 model Hop {
@@ -38,4 +42,6 @@ model Hop {
   rttHopTimes        Float[]
   TracerouteReport   TracerouteReport? @relation(fields: [tracerouteReportId], references: [id])
   tracerouteReportId String?
+
+  @@map("hops")
 }
