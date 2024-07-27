@@ -14,7 +14,7 @@ datasource db {
 }
 
 model PingReport {
-  id                 String @id @default(uuid())
+  id                 String   @id @default(uuid())
   ipAddress          String
   packetsTransmitted Int
   packetsReceived    Int
@@ -24,14 +24,16 @@ model PingReport {
   rttAvg             Float
   rttMax             Float
   rttMDev            Float
+  datetime           DateTime @default(now())
 
   @@map("ping_reports")
 }
 
 model TracerouteReport {
-  id        String @id @default(uuid())
+  id        String   @id @default(uuid())
   ipAddress String
   hops      Hop[]
+  datetime  DateTime @default(now())
 
   @@map("traceroute_reports")
 }
