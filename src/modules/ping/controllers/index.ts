@@ -1,5 +1,5 @@
 import { create } from "./create-ping-report";
 
-export const pingController = {
+export const pingReportController = {
   create,
 };
