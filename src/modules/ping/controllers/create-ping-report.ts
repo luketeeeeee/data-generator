@@ -11,6 +11,12 @@ type PingReportBody = {
 export const create = async (req: Request, res: Response) => {
   const { isFlood, timeLimit, ipAddress } = req.body as PingReportBody;
 
+  if (!validateIPAddress(ipAddress)) {
+    return res.status(400).json({
+      message: { error: "bad request" },
+    });
+  }
+
   exec(
     `ping ${isFlood && "-f"} -w ${timeLimit} -i 0.002 ${ipAddress}`,
     (error, stdout, stderr) => {
@@ -22,6 +28,8 @@ export const create = async (req: Request, res: Response) => {
       if (stderr) {
         console.log({ stderr: `${stderr}` });
       }
+
+      console.log(stdout);
     },
   );
 
