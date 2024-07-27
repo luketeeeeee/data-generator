@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model PingReport {
+  id                 String   @id @default(uuid())
+  ipAddress          String
+  packetsTransmitted Int
+  packetsReceived    Int
+  packetLoss         Float
+  time               Int
+  rttMin             Float
+  rttAvg             Float
+  rttMax             Float
+  rttMDev            Float
+  datetime           DateTime @default(now())
+
+  @@map("ping_reports")
+}
+
+model TracerouteReport {
+  id        String   @id @default(uuid())
+  ipAddress String
+  hops      Hop[]
+  datetime  DateTime @default(now())
+
+  @@map("traceroute_reports")
+}
+
+model Hop {
+  id                 String            @id @default(uuid())
+  ipAddresses        String[]
+  rttHopTimes        Float[]
+  TracerouteReport   TracerouteReport? @relation(fields: [tracerouteReportId], references: [id])
+  tracerouteReportId String?
+
+  @@map("hops")
+}
