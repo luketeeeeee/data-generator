@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { exec } from "child_process";
 import { promisify } from "util";
-import { createPingReport } from "../ping.services";
 import { validateIPAddress } from "../../../utils/validateIpAddress";
+import { createPingReport } from "../ping.services";
 
 type PingReportBody = {
   isFlood: boolean;
@@ -29,7 +29,6 @@ export const create = async (req: Request, res: Response) => {
     if (stderr) {
       // Implement a way to save the error history
       // model PingError { id, errorString }
-      console.log(stderr);
       return res.status(400).json({
         success: false,
       });
@@ -37,6 +36,21 @@ export const create = async (req: Request, res: Response) => {
 
     const resultArray = stdout.split("\n");
     resultArray.splice(1, 1);
+
+    const packetsStats = resultArray[2];
+    const rttStats = resultArray[3];
+
+    const packetsTransmitted = createPingReport({
+      ipAddress,
+      packetsTransmitted,
+      packetsReceived,
+      packetLoss,
+      time,
+      rttMin,
+      rttAvg,
+      rttMax,
+      rttMDev,
+    });
 
     return res.status(200).json({
       success: true,
