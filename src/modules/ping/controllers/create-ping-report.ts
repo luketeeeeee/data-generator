@@ -37,7 +37,7 @@ export const create = async (req: Request, res: Response) => {
     const resultArray = stdout.split("\n");
     resultArray.splice(1, 1);
 
-    console.log(resultArray)
+    console.log(resultArray);
 
     const packetsStats = resultArray[2].match(/\d+(\.\d+)?/g);
     const rttStats = resultArray[3].match(/\d+(\.\d+)?/g);
@@ -45,19 +45,19 @@ export const create = async (req: Request, res: Response) => {
     if (packetsStats === null || rttStats === null) {
       return res.status(400).json({
         success: false,
-        data: { error: "there's something wrong mate" }
-      })
+        data: { error: "there's something wrong mate" },
+      });
     }
 
-    const packetsTransmitted = Number(packetsStats[0])
-    const packetsReceived = Number(packetsStats[1])
-    const packetLoss = Number(packetsStats[2])
-    const time = Number(packetsStats[3])
+    const packetsTransmitted = Number(packetsStats[0]);
+    const packetsReceived = Number(packetsStats[1]);
+    const packetLoss = Number(packetsStats[2]);
+    const time = Number(packetsStats[3]);
 
-    const rttMin = Number(rttStats[0])
-    const rttAvg = Number(rttStats[1])
-    const rttMax = Number(rttStats[2])
-    const rttMDev = Number(rttStats[3])
+    const rttMin = Number(rttStats[0]);
+    const rttAvg = Number(rttStats[1]);
+    const rttMax = Number(rttStats[2]);
+    const rttMDev = Number(rttStats[3]);
 
     const newPingReport = await createPingReport({
       ipAddress,
