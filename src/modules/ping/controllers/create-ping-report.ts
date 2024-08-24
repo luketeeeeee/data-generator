@@ -31,13 +31,12 @@ export const create = async (req: Request, res: Response) => {
       // model PingError { id, errorString }
       return res.status(400).json({
         success: false,
+        data: { error: "there's something wrong mate" },
       });
     }
 
     const resultArray = stdout.split("\n");
     resultArray.splice(1, 1);
-
-    console.log(resultArray);
 
     const packetsStats = resultArray[2].match(/\d+(\.\d+)?/g);
     const rttStats = resultArray[3].match(/\d+(\.\d+)?/g);
