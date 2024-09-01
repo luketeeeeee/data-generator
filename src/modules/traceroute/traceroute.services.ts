@@ -13,8 +13,10 @@ export const findTracerouteReportById = (id: string) => {
   return prisma.tracerouteReport.findUnique({ where: { id } });
 };
 
-export const createTracerouteReport = (data: Prisma.TracerouteReportCreateInput) => {
-  return prisma.tracerouteReport.create({ data });
+export const createTracerouteReport = (
+  data: Prisma.TracerouteReportCreateInput,
+) => {
+  return prisma.tracerouteReport.create({ data, include: { hops: true } });
 };
 
 export const updateTracerouteReport = (

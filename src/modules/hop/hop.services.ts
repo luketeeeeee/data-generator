@@ -5,29 +5,18 @@ export const findAllHops = () => {
   return prisma.hop.findMany({});
 };
 
-export const findHopByIpAddress = (ipAddress: string) => {
-  return prisma.hop.findMany({ where: { ipAddress } });
+export const findHopByTracerouteReportId = (tracerouteReportId: string) => {
+  return prisma.hop.findMany({ where: { tracerouteReportId } });
 };
 
-export const findTracerouteReportById = (id: string) => {
+export const findHopById = (id: string) => {
   return prisma.hop.findUnique({ where: { id } });
 };
 
-export const createTracerouteReport = (data: Prisma.TracerouteReportCreateInput) => {
+export const createHop = (data: Prisma.HopCreateInput) => {
   return prisma.hop.create({ data });
 };
 
-export const updateTracerouteReport = (
-  id: string,
-  data: Prisma.TracerouteReportUpdateInput,
-) => {
-  return prisma.hop.update({ where: { id }, data });
-};
-
-export const deleteTracerouteReport = (id: string) => {
+export const deleteHopById = (id: string) => {
   return prisma.hop.delete({ where: { id } });
-};
-
-export const deleteTracerouteReportsByIpAddress = (ipAddress: string) => {
-  return prisma.hop.deleteMany({ where: { ipAddress } });
 };
