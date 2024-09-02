@@ -30,19 +30,36 @@ export const create = async (req: Request, res: Response) => {
       });
     }
 
-    const resultArray = stdout.split("\n").slice(1);
-    console.log(resultArray);
+    const resultArray = stdout
+      .split("\n")
+      .slice(1)
+      .filter((line) => {
+        const parts = line.trim().split(/\s+/);
+        return parts.some((part) => part !== "*") && parts.length > 1;
+      });
 
-    const hops = resultArray.map((line) => {
-      const parts = line.trim().split(/\s+/);
+    const hops = resultArray
+      .map((line) => {
+        const parts = line.trim().split(/\s+/);
+        const ipAddresses: string[] = [];
+        const rttHopTimes: number[] = [];
 
-      const ipAddresses = parts.filter((part) => part.includes("."));
-      const rttHopTimes = parts
-        .filter((part) => !part.includes(".") && !isNaN(parseFloat(part)))
-        .map(parseFloat);
+        for (let i = 1; i < parts.length; i++) {
+          if (/^\d+\.\d+\.\d+\.\d+$/.test(parts[i])) {
+            ipAddresses.push(parts[i]);
+          } else if (/^\d+(\.\d+)?$/.test(parts[i])) {
+            const rtt = parseFloat(parts[i]);
+            rttHopTimes.push(rtt);
+          }
+        }
 
-      return { ipAddresses, rttHopTimes };
-    });
+        if (ipAddresses.length > 0 && rttHopTimes.length > 0) {
+          return { ipAddresses, rttHopTimes };
+        }
+
+        return null;
+      })
+      .filter((hop) => hop !== null);
 
     const newTracerouteReport = await createTracerouteReport({
       ipAddress,

@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import prisma from "../../prisma";
 
 export const findAllTracerouteReports = () => {
-  return prisma.tracerouteReport.findMany({});
+  return prisma.tracerouteReport.findMany({ include: { hops: true } });
 };
 
 export const findTracerouteReportByIpAddress = (ipAddress: string) => {
