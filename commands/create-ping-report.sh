@@ -9,6 +9,4 @@ while true; do
   let "created_ping_reports+=1"
 
   echo -e "\nCreated ping reports: $created_ping_reports\n"
-
-  sleep 15
 done
