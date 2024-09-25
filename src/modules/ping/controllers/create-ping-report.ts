@@ -5,15 +5,15 @@ import { validateIPAddress } from "../../../utils/validateIpAddress";
 import { createPingReport } from "../ping.services";
 
 type PingReportBody = {
-  isFlood: boolean;
-  timeLimit: number;
+  isFlood?: boolean;
+  timeLimit?: number;
   ipAddress: string;
 };
 
 const execPromise = promisify(exec);
 
 export const create = async (req: Request, res: Response) => {
-  const { isFlood, timeLimit, ipAddress } = req.body as PingReportBody;
+  const { ipAddress } = req.body as PingReportBody;
 
   if (!validateIPAddress(ipAddress)) {
     return res.status(400).json({
@@ -23,7 +23,7 @@ export const create = async (req: Request, res: Response) => {
 
   try {
     const { stdout, stderr } = await execPromise(
-      `ping ${isFlood ? "-f" : ""} -w ${timeLimit} -i 0.002 ${ipAddress}`,
+      `ping -f -w 10 -i 0.002 ${ipAddress}`,
     );
 
     if (stderr) {
