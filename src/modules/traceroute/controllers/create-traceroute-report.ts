@@ -78,7 +78,7 @@ export const create = async (req: Request, res: Response) => {
     });
   } catch (error) {
     return res.status(500).json({
-      success: true,
+      success: false,
       message: { error: (error as Error).message },
     });
   }
